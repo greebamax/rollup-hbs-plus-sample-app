@@ -8,5 +8,12 @@
     "rollup": "^0.64.1",
     "rollup-plugin-handlebars-plus": "^0.2.3",
     "rollup-plugin-root-import": "^0.2.3"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run build:all",
+    "build:all": "npm run build:js && npm run build:html",
+    "build:js": "rollup -c rollup.config.js",
+    "build:html": "cp src/index.html build/index.html",
+    "clean": "rm -f build/**"
   }
 }

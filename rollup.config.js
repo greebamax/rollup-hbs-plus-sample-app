@@ -7,17 +7,21 @@ const partialRoots = [
   `${__dirname}/src/common/views/`
 ];
 
-rollup({
-  entry: 'main.js',
+module.exports = {
+  input: 'src/main.js',
+  output: {
+    name: 'build/main.js',
+    format: 'iife'
+  },
   plugins: [
     // Required by use of `partialRoot` below.
     rootImport({
       root: partialRoots
     }),
     handlebars({
-      // helpers: resolve('src/scripts/helpers/handlebars/index.js'),
+      templateExtension: '.html',
       jquery: 'jquery',
       partialRoot: partialRoots,
-    }),
+    })
   ]
-})
+};
