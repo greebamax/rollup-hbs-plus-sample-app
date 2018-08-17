@@ -1,6 +1,8 @@
 const rollup = require('rollup');
 const handlebars = require('rollup-plugin-handlebars-plus');
 const rootImport = require('rollup-plugin-root-import');
+const nodeResolve = require('rollup-plugin-node-resolve');
+const commonjs = require('rollup-plugin-commonjs');
 
 const partialRoots = [
   `${__dirname}/src/client/js/views/`,
@@ -14,14 +16,20 @@ module.exports = {
     format: 'iife'
   },
   plugins: [
-    // Required by use of `partialRoot` below.
+    nodeResolve(),
+    commonjs({
+      include: 'node_modules/**',
+    }),
     rootImport({
+      useEntry: 'prepend',
+      extensions: ['.js', '.html'],
       root: partialRoots
     }),
     handlebars({
       templateExtension: '.html',
       jquery: 'jquery',
-      partialRoot: partialRoots,
+      isPartial: (name) => name.startsWith('_'),
+      partialRoot: partialRoots
     })
   ]
 };
